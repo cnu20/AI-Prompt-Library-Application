@@ -1,0 +1,35 @@
+<div class="page">
+  <a routerLink="/prompts" class="back">← Back to list</a>
+
+  <div *ngIf="loading" class="state-msg">Loading...</div>
+  <div *ngIf="error" class="state-msg error">{{ error }}</div>
+
+  <div *ngIf="prompt" class="card">
+    <div class="card-header">
+      <div class="meta-row">
+        <span class="badge" [ngClass]="complexityClass(prompt.complexity)">
+          {{ complexityLabel(prompt.complexity) }} · Complexity {{ prompt.complexity }}/10
+        </span>
+        <span class="date">Added {{ prompt.created_at | date:'mediumDate' }}</span>
+      </div>
+      <h1>{{ prompt.title }}</h1>
+      <div class="views-badge">
+        <span class="eye">👁</span>
+        <span>{{ prompt.view_count }} {{ prompt.view_count === 1 ? 'view' : 'views' }}</span>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="content-section">
+      <h2>Prompt Content</h2>
+      <p class="content">{{ prompt.content }}</p>
+    </div>
+
+    <div class="copy-row">
+      <button class="btn-copy" (click)="copied = true; copyToClipboard(prompt.content)">
+        {{ copied ? '✓ Copied!' : 'Copy Prompt' }}
+      </button>
+    </div>
+  </div>
+</div>

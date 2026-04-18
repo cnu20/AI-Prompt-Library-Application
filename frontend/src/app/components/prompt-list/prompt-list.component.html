@@ -1,0 +1,28 @@
+<div class="page">
+  <div class="header">
+    <h1>All Prompts</h1>
+    <a routerLink="/add-prompt" class="btn-primary">+ Add Prompt</a>
+  </div>
+
+  <div *ngIf="loading" class="state-msg">Loading prompts...</div>
+  <div *ngIf="error" class="state-msg error">{{ error }}</div>
+
+  <div *ngIf="!loading && prompts.length === 0" class="empty">
+    <p>No prompts yet.</p>
+    <a routerLink="/add-prompt" class="btn-primary">Add your first prompt</a>
+  </div>
+
+  <div class="grid">
+    <div class="card" *ngFor="let p of prompts">
+      <div class="card-top">
+        <span class="badge" [ngClass]="complexityClass(p.complexity)">
+          Complexity {{ p.complexity }}
+        </span>
+        <span class="date">{{ p.created_at | date:'mediumDate' }}</span>
+      </div>
+      <h2>{{ p.title }}</h2>
+      <p class="preview">{{ p.content | slice:0:130 }}{{ p.content.length > 130 ? '…' : '' }}</p>
+      <a [routerLink]="['/prompts', p.id]" class="btn-link">View Details →</a>
+    </div>
+  </div>
+</div>

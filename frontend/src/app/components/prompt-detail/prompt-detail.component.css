@@ -1,0 +1,30 @@
+.page { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; }
+.back { color: #3b82f6; text-decoration: none; font-size: 0.875rem; display: inline-block; margin-bottom: 1.5rem; }
+.back:hover { text-decoration: underline; }
+
+.card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 2rem; }
+
+.card-header { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
+.meta-row { display: flex; justify-content: space-between; align-items: center; }
+
+.badge { padding: 4px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 600; }
+.badge.low    { background: #d1fae5; color: #065f46; }
+.badge.medium { background: #fef3c7; color: #92400e; }
+.badge.high   { background: #fee2e2; color: #991b1b; }
+
+.date { font-size: 0.8rem; color: #94a3b8; }
+h1 { font-size: 1.6rem; font-weight: 700; color: #0f172a; }
+
+.views-badge { display: inline-flex; align-items: center; gap: 6px; background: #e0f2fe; color: #0369a1; padding: 5px 14px; border-radius: 999px; font-size: 0.85rem; font-weight: 500; width: fit-content; }
+
+hr { border: none; border-top: 1px solid #f1f5f9; margin: 1.5rem 0; }
+
+.content-section h2 { font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 0.75rem; }
+.content { white-space: pre-wrap; line-height: 1.8; color: #334155; font-size: 1rem; }
+
+.copy-row { margin-top: 1.5rem; }
+.btn-copy { background: #0f172a; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.875rem; font-weight: 500; transition: background 0.15s; }
+.btn-copy:hover { background: #1e293b; }
+
+.state-msg { text-align: center; padding: 3rem; color: #64748b; }
+.state-msg.error { color: #dc2626; }
