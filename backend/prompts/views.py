@@ -1,13 +1,25 @@
 import json
-import redis
 from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
-
 from .models import Prompt
 
-r = redis.from_url(settings.REDIS_URL, decode_responses=True)
+REDIS_AVAILABLE = False
+r = None
+
+try:
+    import redis as redis_lib
+    _client = redis_lib.from_url(
+        settings.REDIS_URL,
+        decode_responses=True,
+        socket_connect_timeout=2
+    )
+    _client.ping()
+    r = _client
+    REDIS_AVAILABLE = True
+except Exception:
+    REDIS_AVAILABLE = False
 
 
 def serialize_prompt(prompt, view_count=None):
@@ -50,12 +62,18 @@ def prompt_list(request):
         prompts = Prompt.objects.all()
         return JsonResponse([serialize_prompt(p) for p in prompts], safe=False)
 
-    body = json.loads(request.body)
+    try:
+        body = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON."}, status=400)
+
     errors, title, content, complexity = validate_prompt_data(body)
     if errors:
         return JsonResponse({"errors": errors}, status=400)
 
-    prompt = Prompt.objects.create(title=title, content=content, complexity=complexity)
+    prompt = Prompt.objects.create(
+        title=title, content=content, complexity=complexity
+    )
     return JsonResponse(serialize_prompt(prompt), status=201)
 
 
@@ -67,5 +85,9 @@ def prompt_detail(request, pk):
     except Prompt.DoesNotExist:
         return JsonResponse({"error": "Prompt not found."}, status=404)
 
-    view_count = r.incr(f"prompt:{prompt.id}:views")
+    if REDIS_AVAILABLE and r:
+        view_count = r.incr(f"prompt:{prompt.id}:views")
+    else:
+        view_count = 0
+
     return JsonResponse(serialize_prompt(prompt, view_count=view_count))
