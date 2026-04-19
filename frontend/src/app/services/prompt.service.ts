@@ -13,7 +13,7 @@ export interface Prompt {
 
 @Injectable({ providedIn: 'root' })
 export class PromptService {
-  private base = '/prompts';
+  private base = 'https://ai-prompt-library-application-w777.onrender.com/prompts/';
 
   constructor(private http: HttpClient) {}
 
